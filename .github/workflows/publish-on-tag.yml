@@ -1,0 +1,45 @@
+name: Publish on Tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: |
+          cd packages/template-react-ts && pnpm run build
+          cd ../template-vue-ts && pnpm run build
+
+      - name: Publish packages to npm
+        run: |
+          echo "Publishing packages..."
+          cd packages/template-react-ts
+          npm publish --access public
+          cd ../template-vue-ts  
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 

@@ -27,7 +27,10 @@ jobs:
           version: latest
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          pnpm install --frozen-lockfile
+          cd packages/template-react-ts && pnpm install
+          cd ../template-vue-ts && pnpm install
 
       - name: Build packages
         run: |

@@ -28,21 +28,18 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pnpm install --frozen-lockfile
+          pnpm install
           cd packages/template-react-ts && pnpm install
           cd ../template-vue-ts && pnpm install
-
-      - name: Build packages
-        run: |
-          cd packages/template-react-ts && pnpm run build
-          cd ../template-vue-ts && pnpm run build
+          cd ../store-preview && pnpm install
 
       - name: Publish packages to npm
         run: |
           echo "Publishing packages..."
-          cd packages/template-react-ts
-          npm publish --access public
-          cd ../template-vue-ts  
+          pnpm run changeset:publish
+          cd packages/store-preview
+          pnpm run build
+          cd packages/store-preview/dist
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 

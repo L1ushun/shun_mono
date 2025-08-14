@@ -31,15 +31,10 @@ jobs:
           pnpm install
           cd packages/template-react-ts && pnpm install
           cd ../template-vue-ts && pnpm install
-          cd ../store-preview && yarn install
 
       - name: Publish packages to npm
         run: |
           echo "Publishing packages..."
           pnpm run changeset:publish
-          cd packages/store-preview
-          yarn build
-          cd packages/store-preview/dist
-          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 

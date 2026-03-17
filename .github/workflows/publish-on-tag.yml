@@ -6,12 +6,12 @@ on:
       - 'v*'
 
 jobs:
-    publish:
-      runs-on: ubuntu-latest
-      permissions:
-        id-token: write   # 必须开启 OIDC
-        contents: read
-    
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # 必须开启 OIDC
+      contents: read
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -6,8 +6,11 @@ on:
       - 'v*'
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
+    publish:
+      runs-on: ubuntu-latest
+      permissions:
+        id-token: write   # 必须开启 OIDC
+        contents: read
     
     steps:
       - name: Checkout
@@ -37,4 +40,4 @@ jobs:
           echo "Publishing packages..."
           pnpm run changeset:publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
